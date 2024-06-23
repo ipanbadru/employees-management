@@ -1,16 +1,12 @@
 <x-layout title="Pegawai">
     <div x-data="pegawai">
-        <div class="row justify-content-between mt-3">
-            <div class="col-sm-6">
-                <h1 class="h4">Data Pegawai</h1>
-            </div>
-            <div class="col-sm-6 d-flex justify-content-end">
-                <button type="button" class="btn btn-secondary d-inline-flex align-items-center" data-bs-toggle="modal"
-                    data-bs-target="#modal-pegawai">
-                    <i class="fa-solid fa-plus me-2"></i>
-                    Tambah Pegawai
-                </button>
-            </div>
+        <div class="d-flex justify-content-between flex-nowrap mt-3">
+            <h1 class="h4">Data Pegawai</h1>
+            <button type="button" class="btn btn-secondary d-inline-flex align-items-center" data-bs-toggle="modal"
+                data-bs-target="#modal-pegawai">
+                <i class="fa-solid fa-plus me-2"></i>
+                Tambah Pegawai
+            </button>
         </div>
 
         <div class="card border-0 shadow my-4">
@@ -23,7 +19,6 @@
                                 <th class="border-0">Foto</th>
                                 <th class="border-0">Nama Pegawai</th>
                                 <th class="border-0">No Telepon</th>
-                                <th class="border-0">Email</th>
                                 <th class="border-0">Jenis Kelamin</th>
                                 <th class="border-0 rounded-end">Aksi</th>
                             </tr>
@@ -41,13 +36,17 @@
                                     <td class="border-0" x-text="i + 1"></td>
                                     <td class="border-0"><img
                                             :src="item.foto ? pathStorage + item.foto : pathRoot + 'assets/images/profile.jpg'"
-                                            alt=""></td>
+                                            alt="" width="70"></td>
                                     <td class="border-0" x-text="item.nama"></td>
                                     <td class="border-0" x-text="item.no_telepon"></td>
-                                    <td class="border-0" x-text="item.email"></td>
                                     <td class="border-0" x-text="jenisKelamin[item.jenis_kelamin]"></td>
                                     <td class="border-0">
-                                        <button type="button" class="btn btn-sm btn-outline-primary" value=""
+                                        <button type="button" class="btn btn-sm btn-outline-secondary"
+                                            @click="dataDetail = item" data-bs-toggle="modal"
+                                            data-bs-target="#detail-pegawai"><i class="fa-solid fa-circle-info"></i>
+                                        </button>
+
+                                        <button type="button" class="btn btn-sm btn-outline-primary"
                                             @click="fields = {...item, foto: '', gaji: formatRupiah(String(item.gaji)), labelFoto: item.foto ? item.foto.split('/').pop() : ''}"
                                             data-bs-toggle="modal" data-bs-target="#modal-pegawai"><i
                                                 class="fa-solid fa-pen-to-square"></i>
@@ -66,6 +65,9 @@
         </div>
 
         @include('pegawai._form')
+
+        @include('pegawai._detail')
+
     </div>
 
     @push('js')
@@ -89,6 +91,7 @@
                     },
                     loading: false,
                     errors: {},
+                    dataDetail: {},
 
                     init() {
                         this.fetchPegawai();
@@ -112,8 +115,7 @@
                     async fetchPegawai() {
                         this.loadingFetch = true;
                         try {
-                            const response = await axios.get(
-                                '{{ route('pegawai.index') }}')
+                            const response = await axios.get('{{ route('pegawai.index') }}')
                             this.pegawai = response.data.pegawai;
                         } catch (e) {
                             console.log(e);
@@ -134,8 +136,7 @@
                         form.append('alamat', this.fields.alamat);
                         form.append('tanggal_bergabung', this.fields.tanggal_bergabung);
                         form.append('jabatan', this.fields.jabatan);
-                        form.append('gaji', this.fields.gaji ? String(this.fields.gaji).replace('.',
-                            '') : '');
+                        form.append('gaji', this.fields.gaji ? String(this.fields.gaji).replaceAll('.','') : '');
                         form.append('foto', this.fields.foto);
 
                         const urlAdd = '{{ route('pegawai.store') }}';

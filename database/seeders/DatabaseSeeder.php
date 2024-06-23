@@ -18,5 +18,7 @@ class DatabaseSeeder extends Seeder
            'username' => 'admin',
            'password' => bcrypt('admin'),
         ]);
+
+        $this->call(PegawaiSeeder::class);
     }
 }

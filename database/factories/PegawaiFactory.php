@@ -24,7 +24,7 @@ class PegawaiFactory extends Factory
             'email' => fake()->email,
             'alamat' => fake()->address,
             'tanggal_bergabung' => fake()->date(),
-            'jabatan' => fake()->jobTitle(),
+            'jabatan' => fake()->randomElement(['Manager', 'Staff', 'Kasir', 'Owner', 'Admin', 'Pimpinan', 'Karyawan']),
             'gaji' => fake()->numberBetween(1000000, 10000000),
             'foto' => null,
         ];

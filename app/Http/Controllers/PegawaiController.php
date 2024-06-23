@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\PegawaiRequest;
+use App\Http\Resources\PegawaiResource;
 use App\Models\Pegawai;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
@@ -17,7 +18,7 @@ class PegawaiController extends Controller
         if($request->ajax()){
             return response()->json([
                 'message' => 'success',
-                'pegawai' => Pegawai::latest()->get()
+                'pegawai' => PegawaiResource::collection(Pegawai::latest()->get())
             ]);
         }
         return view('pegawai.index');
@@ -39,7 +40,7 @@ class PegawaiController extends Controller
 
         return response()->json([
             'message' => 'Pegawai berhasil di tambahkan',
-            'data' => $pegawai
+            'data' => new PegawaiResource($pegawai)
         ], 201);
     }
 
@@ -60,7 +61,7 @@ class PegawaiController extends Controller
 
         return response()->json([
             'message' => 'Pegawai berhasil di ubah',
-            'data' => $pegawai
+            'data' => new PegawaiResource($pegawai),
         ], 201);
     }
 
