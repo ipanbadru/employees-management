@@ -144,7 +144,10 @@
                     },
 
                     init() {
-                        this.$watch('q', (value) => this.search(value));
+                        this.$watch('q', (value) => {
+                            this.search(value)
+                            this.getPages();
+                        });
                         this.$watch('pegawai', () => this.search(this.q));
                         this.$watch('show', () => this.getPages());
                         this.$watch('listPegawai', () => this.getPages());
@@ -182,6 +185,7 @@
 
                     getPages() {
                         if(this.listPegawai.length === 0) {
+                            this.pagination.pages = [];
                             this.pagination.lastPage = 1;
                             return;
                         }
