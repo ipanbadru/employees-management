@@ -3,6 +3,7 @@ import Alpine from 'alpinejs'
 import Intersect from '@alpinejs/intersect'
 import { Notyf } from 'notyf';
 import 'notyf/notyf.min.css';
+import Fuse from "fuse.js";
 
 Alpine.plugin(Intersect)
 
@@ -24,6 +25,8 @@ window.notyf = new Notyf({
         },
     ],
 });
+
+window.Fuse = Fuse;
 
 window.Alpine = Alpine;
 

@@ -18,7 +18,7 @@
                     <div class="col-md-6 mb-3">
                         <label for="jenis_kelamin">Jenis Kelamin <span class="text-xs text-danger">*</span></label>
                         <select x-model="fields.jenis_kelamin" x-bind:class="errors.jenis_kelamin ? 'is-invalid' : ''"
-                            class="form-control" id="jenis_kelamin">
+                            class="form-select" id="jenis_kelamin">
                             <option value="" hidden></option>
                             <option value="L">Laki-Laki</option>
                             <option value="P">Perempuan</option>
